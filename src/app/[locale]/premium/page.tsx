@@ -1,0 +1,19 @@
+import { notFound } from "next/navigation";
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import { PublicPageShell } from "@/components/layout/PublicPageChrome";
+import PublishedProjectsGrid from "@/components/gallery/PublishedProjectsGrid";
+import { getPublishedProjects } from "@/lib/portfolio";
+import { getGalleryCategory } from "@/config/gallery";
+import { isLocale } from "@/config/locales";
+
+export default async function PremiumPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params; if (!isLocale(locale)) return notFound();
+  const projects = await getPublishedProjects(locale, { premium: true });
+  const copy = {
+    en: { eyebrow: "GLASS · ALUMINIUM · LIGHT", title: "A more considered finish.", intro: "The Premium Collection brings together glass and aluminium combinations, profile lighting, premium kitchen installations, modern partitions and refined interior details.", note: "Premium work depends on materials, layout, site conditions and final selections. Explore published projects or discuss a reference design with the team.", published: "Published premium projects", empty: "The premium portfolio is ready for the team's own photographs. Until then, browse the clearly labelled reference designs below.", browse: "Explore premium references", quote: "Discuss a premium requirement" },
+    hi: { eyebrow: "ग्लास · एल्युमिनियम · लाइट", title: "और भी खास फिनिश।", intro: "प्रीमियम कलेक्शन में ग्लास और एल्युमिनियम संयोजन, प्रोफाइल लाइटिंग, प्रीमियम किचन, आधुनिक पार्टिशन और इंटीरियर डिटेल्स शामिल हैं।", note: "प्रीमियम काम सामग्री, लेआउट, साइट की स्थिति और अंतिम चयन पर निर्भर करता है। प्रकाशित प्रोजेक्ट देखें या टीम से रेफरेंस डिज़ाइन पर चर्चा करें।", published: "प्रकाशित प्रीमियम प्रोजेक्ट", empty: "प्रीमियम पोर्टफोलियो में टीम की अपनी तस्वीरें जोड़ी जा सकती हैं। तब तक नीचे दिए गए स्पष्ट रूप से चिह्नित रेफरेंस डिज़ाइन देखें।", browse: "प्रीमियम रेफरेंस देखें", quote: "प्रीमियम काम पर बात करें" },
+    pa: { eyebrow: "ਕੱਚ · ਐਲੂਮੀਨੀਅਮ · ਰੌਸ਼ਨੀ", title: "ਹੋਰ ਨਿਖਰੀ ਫਿਨਿਸ਼।", intro: "ਪ੍ਰੀਮੀਅਮ ਕਲੈਕਸ਼ਨ ਵਿੱਚ ਕੱਚ ਅਤੇ ਐਲੂਮੀਨੀਅਮ ਦੇ ਜੋੜ, ਪ੍ਰੋਫਾਈਲ ਲਾਈਟਿੰਗ, ਪ੍ਰੀਮੀਅਮ ਕਿਚਨ, ਆਧੁਨਿਕ ਪਾਰਟੀਸ਼ਨ ਅਤੇ ਇੰਟੀਰੀਅਰ ਵੇਰਵੇ ਸ਼ਾਮਲ ਹਨ।", note: "ਪ੍ਰੀਮੀਅਮ ਕੰਮ ਸਮੱਗਰੀ, ਲੇਆਉਟ, ਸਾਈਟ ਦੀ ਹਾਲਤ ਅਤੇ ਅੰਤਿਮ ਚੋਣਾਂ 'ਤੇ ਨਿਰਭਰ ਕਰਦਾ ਹੈ। ਪ੍ਰਕਾਸ਼ਿਤ ਪ੍ਰੋਜੈਕਟ ਵੇਖੋ ਜਾਂ ਟੀਮ ਨਾਲ ਰੈਫਰੈਂਸ ਡਿਜ਼ਾਈਨ ਬਾਰੇ ਗੱਲ ਕਰੋ।", published: "ਪ੍ਰਕਾਸ਼ਿਤ ਪ੍ਰੀਮੀਅਮ ਪ੍ਰੋਜੈਕਟ", empty: "ਪ੍ਰੀਮੀਅਮ ਪੋਰਟਫੋਲੀਓ ਵਿੱਚ ਟੀਮ ਦੀਆਂ ਆਪਣੀਆਂ ਤਸਵੀਰਾਂ ਜੋੜੀਆਂ ਜਾ ਸਕਦੀਆਂ ਹਨ। ਉਸ ਵੇਲੇ ਤੱਕ ਹੇਠਾਂ ਸਾਫ਼ ਤੌਰ 'ਤੇ ਨਮੂਨੇ ਵਜੋਂ ਦਰਸਾਏ ਡਿਜ਼ਾਈਨ ਵੇਖੋ।", browse: "ਪ੍ਰੀਮੀਅਮ ਰੈਫਰੈਂਸ ਵੇਖੋ", quote: "ਪ੍ਰੀਮੀਅਮ ਕੰਮ ਬਾਰੇ ਗੱਲ ਕਰੋ" },
+  }[locale];
+  const demo = getGalleryCategory("premium-collection");
+  return <PublicPageShell locale={locale} eyebrow={copy.eyebrow} title={copy.title} intro={copy.intro}><section className="premium-page-banner"><div className="premium-page-art"><div className="premium-glass" /><div className="premium-light-line" /><div className="premium-frame" /><span>SELECTED MATERIALS / 01</span></div><div><p className="eyebrow"><Sparkles size={14} /> MATERIAL, LIGHT, DETAIL</p><h2>Different materials.<br /><em>One composed space.</em></h2><p>{copy.note}</p><a href={`/${locale}/contact?project=premium-collection`} className="button button-light">{copy.quote}<ArrowUpRight size={16} /></a></div></section>{projects.length ? <PublishedProjectsGrid locale={locale} projects={projects} title={copy.published} description={copy.note} /> : <section className="premium-reference-block"><div><p className="eyebrow">REFERENCE DIRECTIONS / NOT COMPLETED PROJECTS</p><h2>{copy.empty}</h2><a className="button button-dark" href={`/${locale}/gallery/premium-collection`}>{copy.browse}<ArrowUpRight size={16} /></a></div><div className="premium-reference-image">{demo?.items.slice(0, 2).map((item) => <img key={item.title} src={item.imageUrl} alt={`${item.title} reference visual`} />)}</div></section>}</PublicPageShell>;
+}
